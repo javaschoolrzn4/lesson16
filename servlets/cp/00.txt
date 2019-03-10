@@ -1,0 +1,30 @@
+
+
+public class MavenServlet extends HttpServlet {
+
+    @Override
+    protected void doGet(HttpServletRequest req,
+                         HttpServletResponse resp)
+            throws ServletException, IOException {
+
+        PrintWriter writer = resp.getWriter();
+        writer.write("Sample Maven Servlet");
+        writer.close();
+        System.out.println(">>>>> Served");
+    }
+
+}
+
+
+===============================================
+
+    <servlet>
+        <servlet-name>MavenServlet</servlet-name>
+        <servlet-class>ru.sbt.sandbox.MavenServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>MavenServlet</servlet-name>
+        <url-pattern>/mvn/*</url-pattern>
+    </servlet-mapping>
+	

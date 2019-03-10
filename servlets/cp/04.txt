@@ -1,0 +1,65 @@
+
+public class MavenFilter implements Filter {
+
+    private String filtered;
+
+    @Override
+    public void init(FilterConfig filterConfig) throws ServletException {
+        filtered = filterConfig.getInitParameter("filteredName");
+    }
+
+    @Override
+    public void doFilter(ServletRequest servletRequest,
+                         ServletResponse servletResponse,
+                         FilterChain filterChain)
+            throws IOException, ServletException {
+        String name = servletRequest.getParameter("userName");
+        if (filtered != null && filtered.equalsIgnoreCase(name)) {
+            servletResponse.getWriter().write("Ну и дура!");
+            System.out.println("Filtered");
+        } else {
+            filterChain.doFilter(servletRequest, servletResponse);
+        }
+    }
+
+    @Override
+    public void destroy() {
+
+    }
+}
+
+===============================================
+
+    <filter>
+        <filter-name>MavenFilter</filter-name>
+        <filter-class>ru.sbt.sandbox.MavenFilter</filter-class>
+        <init-param>
+            <param-name>filteredName</param-name>
+            <param-value>Таня</param-value>
+        </init-param>
+    </filter>
+
+===============================================
+
+public class SampleContextListener implements ServletContextListener {
+
+    @Override
+    public void contextInitialized(ServletContextEvent sce) {
+        System.out.println(">>>>>> initialized");
+    }
+
+    @Override
+    public void contextDestroyed(ServletContextEvent sce) {
+    }
+}
+
+===============================================
+    
+	<listener>
+        <listener-class>ru.sbt.sandbox.SampleContextListener</listener-class>
+    </listener>
+
+    <context-param>
+        <param-name>sampleParam</param-name>
+        <param-value>sampleParamValue</param-value>
+    </context-param>
